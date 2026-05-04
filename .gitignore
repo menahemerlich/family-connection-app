@@ -1,0 +1,40 @@
+node_modules/
+.expo/
+dist/
+web-build/
+.expo-shared/
+
+# Native build artifacts
+ios/Pods/
+android/.gradle/
+android/build/
+android/app/build/
+*.apk
+*.aab
+*.ipa
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Functions
+functions/node_modules/
+functions/lib/
+
+# Expo
+.expo
+expo-env.d.ts
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

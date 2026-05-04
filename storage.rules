@@ -1,0 +1,28 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isFamilyMember(familyId) {
+      return isSignedIn() &&
+        firestore.exists(/databases/(default)/documents/families/$(familyId)/members/$(request.auth.uid));
+    }
+
+    // User avatars (publicly readable, owner can write)
+    match /users/{uid}/{fileName=**} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == uid &&
+        request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Family-scoped media
+    match /families/{familyId}/{folder}/{fileName=**} {
+      allow read: if isFamilyMember(familyId);
+      allow write: if isFamilyMember(familyId) &&
+        request.resource.size < 100 * 1024 * 1024;
+    }
+  }
+}
